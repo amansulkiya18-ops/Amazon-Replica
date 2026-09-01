@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon.com Replica — Marketing Cloud Next Sandbox</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <!-- Salesforce Data Cloud Interactions SDK CDN Beacon -->
+    <script type="text/javascript" src="https://cdn.c360a.salesforce.com/beacon/c360a/7bcc58bc-562c-4ac7-83cf-99ee3dd7be25/scripts/c360a.min.js" async></script>
+</head>
+<body>
+    <!-- Main E-Commerce Application Shell -->
+    <div class="app-container">
+        
+        <!-- Top Navigation Bar (Amazon Style Navbar) -->
+        <header class="store-header">
+            <!-- Left: Logo & Deliver To -->
+            <div class="header-section-left">
+                <a href="#" class="brand-logo" id="home-link">
+                    amazon<span class="logo-dot">.com</span>
+                    <div class="logo-arrow"></div>
+                </a>
+                
+                <div class="nav-address-box">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="nav-loc-icon"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <div class="address-text">
+                        <span class="addr-line1">Deliver to</span>
+                        <span class="addr-line2">New York 10001</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Center: Search Bar with Categories Select -->
+            <div class="header-search-container">
+                <form id="header-search-form" class="search-form">
+                    <select id="search-category-select" class="search-category-select">
+                        <option value="all">All Departments</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="smarthome">Smart Home</option>
+                        <option value="books">Books</option>
+                    </select>
+                    <input type="text" id="search-query-input" placeholder="Search Amazon" class="search-input">
+                    <button type="submit" id="search-submit-btn" class="search-submit-btn" aria-label="Submit Search">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Right: Account lists, Orders, Cart link -->
+            <div class="header-section-right">
+                <button id="toggle-integration-btn" class="icon-btn integration-toggle-btn" aria-label="Open MC Next Integration Panel">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                    <span>MC Next Console</span>
+                </button>
+
+                <div class="nav-dropdown" id="nav-account-dropdown">
+                    <div class="nav-account-box" id="nav-account-trigger-btn">
+                        <span class="acc-line1" id="nav-welcome-user">Hello, Sign in</span>
+                        <span class="acc-line2">
+                            Account & Lists
+                            <svg class="dropdown-arrow-small" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    </div>
+                    <div class="nav-dropdown-content account-dropdown-list" id="header-products-dropdown">
+                        <!-- Populated dynamically with product links in app.js -->
+                    </div>
+                </div>
+
+                <div class="nav-orders-box" id="nav-orders-trigger-btn">
+                    <span class="ord-line1">Returns</span>
+                    <span class="ord-line2">& Orders</span>
+                </div>
+
+                <button class="nav-cart-btn-link" id="nav-cart-btn-link">
+                    <div class="cart-icon-wrapper">
+                        <span id="nav-cart-badge" class="nav-cart-count">0</span>
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    </div>
+                    <span class="cart-label">Cart</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Amazon Sub-header Navigation -->
+        <div class="store-subnav">
+            <div class="subnav-left">
+                <button class="subnav-all-btn" id="subnav-all-btn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    <span>All</span>
+                </button>
+                
+                <nav class="subnav-links">
+                    <button class="subnav-link-btn active" id="nav-shop-btn">Shop Catalog</button>
+                    <button class="subnav-link-btn" id="nav-categories-link-btn">Departments</button>
+                    
+                    <!-- Categories Dropdown -->
+                    <div class="nav-dropdown subnav-dropdown">
+                        <button class="subnav-dropdown-btn">
+                            Categories Dropdown
+                            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div class="nav-dropdown-content" id="header-categories-dropdown">
+                            <button data-category="electronics">Electronics</button>
+                            <button data-category="smarthome">Smart Home</button>
+                            <button data-category="books">Books</button>
+                        </div>
+                    </div>
+
+                    <!-- Brands Dropdown -->
+                    <div class="nav-dropdown subnav-dropdown">
+                        <button class="subnav-dropdown-btn">
+                            Brands
+                            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div class="nav-dropdown-content" id="header-brands-dropdown">
+                            <!-- Populated with brand selections in app.js -->
+                        </div>
+                    </div>
+
+                    <button class="subnav-link-btn" id="nav-brands-btn">Brands Showcase</button>
+                    <button class="subnav-link-btn" id="nav-promo-btn">Today's Deals</button>
+                    <button class="subnav-link-btn" id="nav-account-link-btn">Your Account</button>
+                    <button class="subnav-link-btn" id="nav-support-link-btn">Customer Service</button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <main class="store-main">
+            
+            <!-- PAGE 1: SHOP / CATALOG -->
+            <div id="page-shop" class="store-page active">
+                <!-- Hero Banner (Amazon Style sliding banner) -->
+                <section class="hero-banner">
+                    <div class="hero-content">
+                        <span class="hero-subtitle">Amazon Ingestion Sandbox</span>
+                        <h1 class="hero-title">Shop electronics, books, & smart home</h1>
+                        <p class="hero-description">Experience high-fidelity Salesforce MC Next Web SDK event tracking and Data Cloud streaming API integrations in real-time.</p>
+                        <a href="#catalog" class="btn btn-primary hero-btn">Explore Deals</a>
+                    </div>
+                    <div class="hero-image-placeholder">
+                        <div class="abstract-visual amazon-hero-visual"></div>
+                    </div>
+                </section>
+
+                <!-- Store Catalog Section -->
+                <section id="catalog" class="catalog-section">
+                    <div class="catalog-header">
+                        <h2 class="section-title" id="catalog-title">8 Results</h2>
+                        <div class="category-filters">
+                            <button class="filter-btn active" data-category="all">All Departments</button>
+                            <button class="filter-btn" data-category="electronics">Electronics</button>
+                            <button class="filter-btn" data-category="smarthome">Smart Home</button>
+                            <button class="filter-btn" data-category="books">Books</button>
+                        </div>
+                    </div>
+
+                    <!-- Catalog Layout: Grid with Brand Filters Sidebar -->
+                    <div class="catalog-layout">
+                        <!-- Sidebar: Brand Checklist -->
+                        <aside class="catalog-sidebar">
+                            <div class="sidebar-block">
+                                <h4>Filter by Brand</h4>
+                                <div class="brand-filters" id="brand-filters-container">
+                                    <!-- Dynamic brand checkboxes rendered by app.js -->
+                                </div>
+                            </div>
+                            <div class="sidebar-block promo-sidebar-ad" id="promo-ad-card">
+                                <h5>Sponsored Ad</h5>
+                                <p class="promo-text">Save $10 on Amazon Echo Dot!</p>
+                                <button class="btn btn-secondary btn-sm apply-ad-promo-btn" data-code="ECHODOT10">Apply Code</button>
+                            </div>
+                        </aside>
+
+                        <!-- Products Grid (Statically Pre-rendered with actual content) -->
+                        <div id="products-grid" class="products-grid">
+                            <!-- Product 1 -->
+                            <div class="product-card" data-prod-id="AMZ-001" data-category="smarthome" data-brand="Amazon">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><circle cx='150' cy='150' r='60' fill='%231a1a1a'/><circle cx='150' cy='150' r='56' fill='%232c2c2c'/><circle cx='150' cy='150' r='48' fill='%230f0f0f'/><circle cx='150' cy='206' r='30' fill='%2300a8e1' opacity='0.8' filter='blur(4px)'/><text x='150' y='155' fill='%23FFF' font-family='sans-serif' font-weight='bold' font-size='10' text-anchor='middle'>alexa</text></svg>" alt="Echo Dot">
+                                    <span class="product-badge-tag">Amazon</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Smart Home</span>
+                                    <h3 class="product-card-title">Echo Dot (5th Gen, 2022 release) | Smart Speaker with Alexa</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon" style="color: #ddd;">★</span>
+                                        <span class="rating-count">84,204</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">49</span><span class="price-fraction">99</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="AMZ-001">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 2 -->
+                            <div class="product-card" data-prod-id="APL-002" data-category="electronics" data-brand="Apple">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><rect x='110' y='80' width='80' height='90' rx='20' fill='%23FFF' stroke='%23aaa' stroke-width='2'/><path d='M110 110 L90 180 M190 110 L210 180' stroke='%23FFF' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/><path d='M110 110 L90 180 M190 110 L210 180' stroke='%232C2C2C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>" alt="AirPods Pro">
+                                    <span class="product-badge-tag">Apple</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Electronics</span>
+                                    <h3 class="product-card-title">Apple AirPods Pro (2nd Gen) | Wireless Earbuds with USB-C</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span>
+                                        <span class="rating-count">32,950</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">249</span><span class="price-fraction">00</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="APL-002">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 3 -->
+                            <div class="product-card" data-prod-id="SON-003" data-category="electronics" data-brand="Sony">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><circle cx='100' cy='150' r='30' fill='%231a1a1a' stroke='%232c2c2c' stroke-width='2'/><circle cx='200' cy='150' r='30' fill='%231a1a1a' stroke='%232c2c2c' stroke-width='2'/><path d='M100 120 A 50 50 0 0 1 200 120' fill='none' stroke='%231a1a1a' stroke-width='8' stroke-linecap='round'/></svg>" alt="Sony headphones">
+                                    <span class="product-badge-tag">Sony</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Electronics</span>
+                                    <h3 class="product-card-title">Sony WH-1000XM4 Wireless Noise Cancelling Headphones</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon" style="color: #ddd;">★</span>
+                                        <span class="rating-count">44,188</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">348</span><span class="price-fraction">00</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="SON-003">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 4 -->
+                            <div class="product-card" data-prod-id="AMZ-004" data-category="books" data-brand="Amazon">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><rect x='80' y='60' width='140' height='200' rx='10' fill='%231E1E1E' stroke='%232c2c2c' stroke-width='2'/><rect x='90' y='70' width='120' height='150' fill='%23F6F6F4'/><text x='150' y='150' fill='%23444' font-family='sans-serif' font-size='12' text-anchor='middle'>Kindle Paperwhite</text></svg>" alt="Kindle">
+                                    <span class="product-badge-tag">Amazon</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Books</span>
+                                    <h3 class="product-card-title">Kindle Paperwhite (16 GB) | 6.8" Display with Adjustable Warm Light</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon" style="color: #ddd;">★</span>
+                                        <span class="rating-count">19,832</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">149</span><span class="price-fraction">99</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="AMZ-004">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 5 -->
+                            <div class="product-card" data-prod-id="ANK-005" data-category="electronics" data-brand="Anker">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><rect x='90' y='90' width='120' height='140' rx='12' fill='%231a1a1a' stroke='%232c2c2c' stroke-width='2'/><rect x='105' y='110' width='90' height='20' fill='%230D9488' opacity='0.3'/><circle cx='120' cy='180' r='6' fill='%230D9488'/></svg>" alt="Anker Power bank">
+                                    <span class="product-badge-tag">Anker</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Electronics</span>
+                                    <h3 class="product-card-title">Anker PowerCore 20K | 20000mAh Portable Power Bank Charger</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon" style="color: #ddd;">★</span>
+                                        <span class="rating-count">12,410</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">42</span><span class="price-fraction">99</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="ANK-005">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 6 -->
+                            <div class="product-card" data-prod-id="AMZ-006" data-category="smarthome" data-brand="Amazon">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><rect x='95' y='100' width='110' height='120' rx='8' fill='%23FFF' stroke='%232C2C2C' stroke-width='2'/><circle cx='130' cy='160' r='8' fill='%23DDD'/><circle cx='170' cy='160' r='8' fill='%23DDD'/><path d='M125 190 L175 190' stroke='%23DDD' stroke-width='4'/></svg>" alt="Smart Plug">
+                                    <span class="product-badge-tag">Amazon</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Smart Home</span>
+                                    <h3 class="product-card-title">Amazon Smart Plug | Works with Alexa</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon" style="color: #ddd;">★</span>
+                                        <span class="rating-count">512,940</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">24</span><span class="price-fraction">99</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="AMZ-006">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 7 -->
+                            <div class="product-card" data-prod-id="BSE-007" data-category="electronics" data-brand="Bose">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><rect x='75' y='110' width='150' height='100' rx='20' fill='%231a1a1a' stroke='%232c2c2c' stroke-width='2'/><line x1='90' y1='160' x2='210' y2='160' stroke='%23555' stroke-width='15' stroke-dasharray='2 4'/></svg>" alt="Bose Speaker">
+                                    <span class="product-badge-tag">Bose</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Electronics</span>
+                                    <h3 class="product-card-title">Bose SoundLink Flex | Portable Bluetooth Waterproof Speaker</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span>
+                                        <span class="rating-count">15,804</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">149</span><span class="price-fraction">00</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="BSE-007">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 8 -->
+                            <div class="product-card" data-prod-id="BOK-008" data-category="books" data-brand="Penguin">
+                                <div class="product-image-container">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='320' viewBox='0 0 300 320'><rect width='100%' height='100%' fill='%23EAEDED'/><path d='M90 60 L210 60 L210 260 L90 260 Z' fill='%23002f6c' stroke='%232C2C2C' stroke-width='2'/><circle cx='150' cy='130' r='30' fill='%23f4a261' opacity='0.8'/><text x='150' y='210' fill='%23FFF' font-family='sans-serif' font-weight='bold' font-size='12' text-anchor='middle'>ATOMIC HABITS</text></svg>" alt="Atomic Habits book">
+                                    <span class="product-badge-tag">Penguin</span>
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">Books</span>
+                                    <h3 class="product-card-title">Atomic Habits: An Easy & Proven Way to Build Good Habits</h3>
+                                    <div class="rating-stars">
+                                        <span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span><span class="star-icon">★</span>
+                                        <span class="rating-count">154,800</span>
+                                    </div>
+                                    <div class="product-card-price-row">
+                                        <span class="price-currency">$</span><span class="price-val">16</span><span class="price-fraction">20</span>
+                                    </div>
+                                    <div class="prime-badge-row">
+                                        <span class="prime-label">prime</span>
+                                        <span class="delivery-date">FREE delivery Tomorrow</span>
+                                    </div>
+                                    <div class="product-card-actions">
+                                        <button class="btn btn-primary btn-block add-to-bag-quick" data-id="BOK-008">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 2: BRANDS PAGE -->
+            <div id="page-brands" class="store-page">
+                <section class="brands-section">
+                    <div class="page-intro-header">
+                        <h2 class="page-title">Top Featured Brands</h2>
+                        <p>We source our replica catalog directly from global tech manufacturers. Click on any brand below to view their specific products catalog.</p>
+                    </div>
+                    
+                    <div id="brands-showcase-grid" class="brands-showcase-grid">
+                        <!-- Brand 1 -->
+                        <div class="brand-card" data-brand-name="Amazon">
+                            <div class="brand-card-logo-placeholder">A</div>
+                            <h3>Amazon</h3>
+                            <p>Official Alexa enabled smart speakers, Kindle paperwhites, and home automation solutions.</p>
+                            <button class="btn btn-secondary btn-sm">View Products</button>
+                        </div>
+                        <!-- Brand 2 -->
+                        <div class="brand-card" data-brand-name="Apple">
+                            <div class="brand-card-logo-placeholder">Ap</div>
+                            <h3>Apple</h3>
+                            <p>Premium AirPods Pro, wireless acoustics, and high-performance tech devices.</p>
+                            <button class="btn btn-secondary btn-sm">View Products</button>
+                        </div>
+                        <!-- Brand 3 -->
+                        <div class="brand-card" data-brand-name="Sony">
+                            <div class="brand-card-logo-placeholder">S</div>
+                            <h3>Sony</h3>
+                            <p>Premium industry-leading active noise-cancelling headsets and audio accessories.</p>
+                            <button class="btn btn-secondary btn-sm">View Products</button>
+                        </div>
+                        <!-- Brand 4 -->
+                        <div class="brand-card" data-brand-name="Anker">
+                            <div class="brand-card-logo-placeholder">An</div>
+                            <h3>Anker</h3>
+                            <p>Global leader in high-capacity portable power banks, chargers, and docks.</p>
+                            <button class="btn btn-secondary btn-sm">View Products</button>
+                        </div>
+                        <!-- Brand 5 -->
+                        <div class="brand-card" data-brand-name="Bose">
+                            <div class="brand-card-logo-placeholder">B</div>
+                            <h3>Bose</h3>
+                            <p>Legendary waterproof outdoor sound and portable wireless Bluetooth acoustics.</p>
+                            <button class="btn btn-secondary btn-sm">View Products</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 3: PROMOTIONS PAGE (Today's Deals) -->
+            <div id="page-promotions" class="store-page">
+                <section class="promotions-section">
+                    <div class="page-intro-header">
+                        <h2 class="page-title">Today's Featured Deals</h2>
+                        <p>Apply these exclusive coupon codes to save on device essentials. These discount applications are pushed to Salesforce Data Cloud as custom promo events.</p>
+                    </div>
+
+                    <div class="promotions-grid">
+                        <!-- Promo 1 -->
+                        <div class="promo-card-item">
+                            <div class="promo-badge">20% OFF</div>
+                            <div class="promo-details">
+                                <span class="promo-brand">AMAZON DEVICES</span>
+                                <h3>Echo Dot Smart Audio</h3>
+                                <p>Get 20% off all Amazon smart speaker devices and smart plugs. Connect your home today.</p>
+                                <div class="promo-action">
+                                    <code class="promo-code-text">ECHODOT10</code>
+                                    <button class="btn btn-primary apply-promo-action" data-code="ECHODOT10">Apply Discount</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promo 2 -->
+                        <div class="promo-card-item">
+                            <div class="promo-badge">15% OFF</div>
+                            <div class="promo-details">
+                                <span class="promo-brand">APPLE & SONY</span>
+                                <h3>Premium Sound Sale</h3>
+                                <p>Save 15% on premium wireless sound, Apple AirPods Pro, and Sony active noise-cancelling headphones.</p>
+                                <div class="promo-action">
+                                    <code class="promo-code-text">SOUND15</code>
+                                    <button class="btn btn-primary apply-promo-action" data-code="SOUND15">Apply Discount</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promo 3 -->
+                        <div class="promo-card-item">
+                            <div class="promo-badge">10% OFF</div>
+                            <div class="promo-details">
+                                <span class="promo-brand">ANKER GEAR</span>
+                                <h3>Power & Charging</h3>
+                                <p>Get 10% off high-speed portable battery packs, power banks, and USB-C wall chargers.</p>
+                                <div class="promo-action">
+                                    <code class="promo-code-text">POWER10</code>
+                                    <button class="btn btn-primary apply-promo-action" data-code="POWER10">Apply Discount</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 4: DEDICATED CART PAGE -->
+            <div id="page-cart" class="store-page">
+                <section class="cart-section">
+                    <h2 class="page-title">Shopping Cart</h2>
+                    
+                    <div class="cart-layout" id="cart-layout-container">
+                        <!-- Table and items (Left) -->
+                        <div class="cart-items-table-wrapper">
+                            <table class="cart-items-table">
+                                <thead>
+                                    <tr>
+                                        <th>Items</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Subtotal</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-table-body">
+                                    <!-- Dynamic items rendered by app.js -->
+                                </tbody>
+                            </table>
+                            <div id="cart-empty-state-full" class="cart-empty-state-full">
+                                <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1">
+                                    <circle cx="9" cy="21" r="1"></circle>
+                                    <circle cx="20" cy="21" r="1"></circle>
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                </svg>
+                                <h3>Your Amazon Cart is empty</h3>
+                                <p>Your shopping cart lives to serve. Give it purpose — fill it with electronics, smart home, and books.</p>
+                                <button class="btn btn-primary navigate-shop-action">Continue Shopping</button>
+                            </div>
+                        </div>
+
+                        <!-- Summary (Right) -->
+                        <div class="cart-summary-card" id="cart-summary-wrapper">
+                            <h3>Order Summary</h3>
+                            <div class="summary-details">
+                                <div class="summary-line">
+                                    <span>Subtotal</span>
+                                    <span id="cart-subtotal-val">$0.00</span>
+                                </div>
+                                <div class="summary-line discount-line hidden" id="cart-discount-row">
+                                    <span>Coupon Discount</span>
+                                    <span id="cart-discount-val">-$0.00</span>
+                                </div>
+                                <div class="summary-line delivery-line">
+                                    <span>Shipping & Handling</span>
+                                    <span class="free-badge">FREE</span>
+                                </div>
+                                <div class="summary-divider"></div>
+                                <div class="summary-line total-line">
+                                    <span>Order Total</span>
+                                    <span id="cart-total-val">$0.00</span>
+                                </div>
+                            </div>
+
+                            <!-- Promo Code Section -->
+                            <div class="cart-page-promo-section">
+                                <label for="cart-page-promo-input">Gift Cards & Promotional Codes</label>
+                                <div class="promo-row">
+                                    <input type="text" id="cart-page-promo-input" placeholder="Enter Code">
+                                    <button id="apply-page-promo-btn" class="btn btn-secondary">Apply</button>
+                                </div>
+                                <div id="active-promo-badge" class="active-promo-badge hidden">
+                                    <span id="promo-badge-text">Code</span>
+                                    <button id="remove-promo-btn">&times;</button>
+                                </div>
+                            </div>
+
+                            <button id="proceed-to-checkout-btn" class="btn btn-primary btn-block">Proceed to Checkout</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 5: DEDICATED CHECKOUT PAGE -->
+            <div id="page-checkout" class="store-page">
+                <section class="checkout-page-section">
+                    <h2 class="page-title">Review your order</h2>
+                    
+                    <div class="checkout-layout">
+                        <!-- Left: Form -->
+                        <form id="checkout-form" class="checkout-form-container">
+                            <div class="checkout-form-block">
+                                <h3>1. Shipping Address</h3>
+                                <div class="modal-grid">
+                                    <div class="form-group">
+                                        <label for="checkout-first-name">First Name</label>
+                                        <input type="text" id="checkout-first-name" required placeholder="Jane">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="checkout-last-name">Last Name</label>
+                                        <input type="text" id="checkout-last-name" required placeholder="Doe">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkout-email">Email Address (Subscriber Key)</label>
+                                    <input type="email" id="checkout-email" required placeholder="jane.doe@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkout-phone">Phone Number (Optional)</label>
+                                    <input type="tel" id="checkout-phone" placeholder="+1 (555) 019-2834">
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkout-address">Shipping Address</label>
+                                    <input type="text" id="checkout-address" required placeholder="120 Tech Drive">
+                                </div>
+                                <div class="modal-grid">
+                                    <div class="form-group">
+                                        <label for="checkout-city">City</label>
+                                        <input type="text" id="checkout-city" required placeholder="Seattle">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="checkout-zip">ZIP / Postal Code</label>
+                                        <input type="text" id="checkout-zip" required placeholder="98101">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="checkout-form-block">
+                                <h3>2. Payment Method</h3>
+                                <p class="payment-hint">This is an Amazon sandbox transaction. No real billing processed.</p>
+                                <div class="form-group">
+                                    <label>Amazon Mock Card</label>
+                                    <div class="mock-card-input">
+                                        <span>4111 2222 3333 4444</span>
+                                        <span>12/28</span>
+                                        <span>321</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="checkout-actions-row">
+                                <button type="button" class="btn btn-secondary navigate-cart-action">Back to Cart</button>
+                                <button type="submit" class="btn btn-primary">Place your order</button>
+                            </div>
+                        </form>
+
+                        <!-- Right: Summary -->
+                        <div class="checkout-summary-card">
+                            <h3>Order Summary</h3>
+                            <div id="checkout-summary-items-list" class="checkout-summary-items-list">
+                                <!-- Dynamic order lines rendered by app.js -->
+                            </div>
+                            
+                            <div class="summary-divider"></div>
+                            
+                            <div class="checkout-summary-pricing">
+                                <div class="summary-line">
+                                    <span>Items subtotal</span>
+                                    <span id="summary-subtotal">$0.00</span>
+                                </div>
+                                <div class="summary-line discount-line hidden" id="summary-discount-row">
+                                    <span>Discount applied</span>
+                                    <span id="summary-discount-val">-$0.00</span>
+                                </div>
+                                <div class="summary-line">
+                                    <span>Shipping</span>
+                                    <span class="free-badge">FREE</span>
+                                </div>
+                                <div class="summary-divider"></div>
+                                <div class="summary-line total-line">
+                                    <span>Order Total</span>
+                                    <span id="summary-total-val">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 6: ORDER SUCCESS CONFIRMATION PAGE -->
+            <div id="page-success" class="store-page">
+                <section class="success-page-section">
+                    <div class="success-card">
+                        <div class="success-icon">✓</div>
+                        <h2 class="page-title">Order Placed, Thank You!</h2>
+                        <p class="success-desc">An email confirmation has been logged. Your order checkout data has been streamed into your Salesforce Data Cloud unified customer profile.</p>
+                        
+                        <div class="order-info-box">
+                            <div class="info-row">
+                                <span>Amazon Order ID</span>
+                                <strong id="success-order-id">ORD-000000</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>Total Charged</span>
+                                <strong id="success-order-total">$0.00</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>Subscriber Key / Email</span>
+                                <strong id="success-order-email">customer@example.com</strong>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary navigate-shop-action">Continue Shopping</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 7: YOUR ACCOUNT PAGE -->
+            <div id="page-account" class="store-page">
+                <section class="account-page-section">
+                    <div class="account-header-block">
+                        <h2 class="page-title">Your Account</h2>
+                        <button class="account-back-btn hidden" id="account-back-btn">&larr; Back to Your Account</button>
+                    </div>
+
+                    <!-- Main Account Cards Grid -->
+                    <div class="account-cards-grid" id="account-cards-grid">
+                        <!-- Card 1: Orders -->
+                        <div class="account-card" id="account-card-orders">
+                            <div class="account-card-icon">📦</div>
+                            <div class="account-card-text">
+                                <h4>Your Orders</h4>
+                                <p>Track, return, cancel or buy items again</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2: Security -->
+                        <div class="account-card" id="account-card-security">
+                            <div class="account-card-icon">🔑</div>
+                            <div class="account-card-text">
+                                <h4>Login & Security</h4>
+                                <p>Edit name, email, phone and credentials</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Payments -->
+                        <div class="account-card" id="account-card-payments">
+                            <div class="account-card-icon">💳</div>
+                            <div class="account-card-text">
+                                <h4>Your Payments</h4>
+                                <p>Manage payment methods, cards, and wallets</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Prime -->
+                        <div class="account-card" id="account-card-prime">
+                            <div class="account-card-icon">👑</div>
+                            <div class="account-card-text">
+                                <h4>Prime</h4>
+                                <p>View benefits, renewal date and status</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Gift Cards -->
+                        <div class="account-card" id="account-card-giftcards">
+                            <div class="account-card-icon">🎁</div>
+                            <div class="account-card-text">
+                                <h4>Gift Cards</h4>
+                                <p>View balance or redeem gift cards</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Customer Service -->
+                        <div class="account-card" id="account-card-support">
+                            <div class="account-card-icon">🎧</div>
+                            <div class="account-card-text">
+                                <h4>Customer Service</h4>
+                                <p>Contact help desk, submit queries or reports</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-pane 1: Your Orders -->
+                    <div class="account-sub-pane hidden" id="account-pane-orders">
+                        <h3>Your Orders & History</h3>
+                        <p class="sub-pane-description">Manage and review your recently purchased replica orders.</p>
+                        <div class="orders-history-list" id="orders-history-list">
+                            <!-- Preset mock orders pre-rendered -->
+                            <div class="order-history-card">
+                                <div class="order-history-header">
+                                    <div>
+                                        <span class="ord-meta-lbl">ORDER PLACED</span>
+                                        <span class="ord-meta-val">June 20, 2026</span>
+                                    </div>
+                                    <div>
+                                        <span class="ord-meta-lbl">TOTAL</span>
+                                        <span class="ord-meta-val">$74.98</span>
+                                    </div>
+                                    <div>
+                                        <span class="ord-meta-lbl">SHIP TO</span>
+                                        <span class="ord-meta-val">Jane Doe</span>
+                                    </div>
+                                    <div class="ord-id-right">
+                                        <span class="ord-meta-lbl">ORDER #</span>
+                                        <span class="ord-meta-val">ORD-942851</span>
+                                    </div>
+                                </div>
+                                <div class="order-history-details">
+                                    <div class="order-detail-line">
+                                        <span class="ord-line-title">Echo Dot (5th Gen)</span>
+                                        <span class="ord-line-qty">Qty: 1</span>
+                                        <span class="ord-line-price">$49.99</span>
+                                    </div>
+                                    <div class="order-detail-line">
+                                        <span class="ord-line-title">Amazon Smart Plug</span>
+                                        <span class="ord-line-qty">Qty: 1</span>
+                                        <span class="ord-line-price">$24.99</span>
+                                    </div>
+                                    <div class="order-status-badge delivered">Delivered June 22</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-pane 2: Login & Security -->
+                    <div class="account-sub-pane hidden" id="account-pane-security">
+                        <h3>Login & Security Settings</h3>
+                        <p class="sub-pane-description">Modify your customer credentials. Saving updates triggers a profile identification update to Salesforce.</p>
+                        
+                        <form id="account-security-form" class="sub-pane-form">
+                            <div class="form-group">
+                                <label for="sec-name">Name</label>
+                                <input type="text" id="sec-name" value="Jane Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sec-email">Email Address</label>
+                                <input type="email" id="sec-email" value="jane.doe@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sec-phone">Phone Number</label>
+                                <input type="tel" id="sec-phone" value="+1 (555) 019-2834">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <!-- Sub-pane 3: Your Payments -->
+                    <div class="account-sub-pane hidden" id="account-pane-payments">
+                        <h3>Your Payments & Wallet</h3>
+                        <p class="sub-pane-description">View, manage, and add payment cards for purchases.</p>
+                        
+                        <div class="payments-dashboard">
+                            <h4>Your Saved Cards</h4>
+                            <div class="saved-cards-list" id="saved-cards-list">
+                                <div class="saved-card-item">
+                                    <div class="card-brand-icon">💳</div>
+                                    <div class="card-item-details">
+                                        <strong>Visa ending in 4444</strong>
+                                        <span>Expires: 12/28 | Name: Jane Doe</span>
+                                    </div>
+                                    <span class="default-card-badge">Default</span>
+                                </div>
+                            </div>
+
+                            <h4 style="margin-top: 25px;">Add a Payment Method</h4>
+                            <form id="account-payment-form" class="sub-pane-form">
+                                <div class="form-group">
+                                    <label for="pay-card-name">Name on Card</label>
+                                    <input type="text" id="pay-card-name" placeholder="Jane Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pay-card-number">Card Number</label>
+                                    <input type="text" id="pay-card-number" placeholder="4111 2222 3333 4444" required>
+                                </div>
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="pay-card-exp">Expiry (MM/YY)</label>
+                                        <input type="text" id="pay-card-exp" placeholder="05/29" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pay-card-cvv">CVV</label>
+                                        <input type="text" id="pay-card-cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Card</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sub-pane 4: Prime -->
+                    <div class="account-sub-pane hidden" id="account-pane-prime">
+                        <h3>Your Prime Membership</h3>
+                        <p class="sub-pane-description">Manage and review your Amazon Prime benefits.</p>
+                        
+                        <div class="prime-membership-sheet">
+                            <div class="prime-badge-header">
+                                <span class="prime-logo-badge">prime</span>
+                                <span class="status-badge-active">Active</span>
+                            </div>
+                            
+                            <div class="prime-details-list">
+                                <div class="prime-detail-row">
+                                    <span>Plan Details</span>
+                                    <strong>Monthly Prime Membership</strong>
+                                </div>
+                                <div class="prime-detail-row">
+                                    <span>Renewal Date</span>
+                                    <strong>July 30, 2026</strong>
+                                </div>
+                                <div class="prime-detail-row">
+                                    <span>Payment Method</span>
+                                    <strong>Visa ending in 4444</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-pane 5: Gift Cards -->
+                    <div class="account-sub-pane hidden" id="account-pane-giftcards">
+                        <h3>Your Gift Cards Balance</h3>
+                        <p class="sub-pane-description">Vouchers and balance cards redeemable on orders.</p>
+                        
+                        <div class="giftcards-balance-box">
+                            <div class="balance-display-label">Current Gift Card Balance</div>
+                            <div class="balance-amount-display" id="giftcard-wallet-balance">$25.00</div>
+                            
+                            <div class="redeem-box-area">
+                                <label for="redeem-giftcard-input">Redeem a Gift Card</label>
+                                <div class="promo-row">
+                                    <input type="text" id="redeem-giftcard-input" placeholder="Enter Gift Code e.g. AMZN50">
+                                    <button id="redeem-giftcard-btn" class="btn btn-primary">Redeem</button>
+                                </div>
+                                <p class="redeem-hint">Enter code "AMZN50" to load a $50.00 mock balance voucher.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-pane 6: Customer Service -->
+                    <div class="account-sub-pane hidden" id="account-pane-support">
+                        <h3>Amazon Customer Helpdesk</h3>
+                        <p class="sub-pane-description">Submit a support ticket. Submission actions stream service requests to the Salesforce Console.</p>
+                        
+                        <form id="account-support-form" class="sub-pane-form">
+                            <div class="form-group">
+                                <label for="support-subject">Subject</label>
+                                <input type="text" id="support-subject" placeholder="e.g. Return request for Echo Dot" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="support-message">Message Details</label>
+                                <textarea id="support-message" rows="4" placeholder="Describe your inquiry..." required style="width:100%; border: 1px solid var(--border-color); border-radius:4px; padding:10px;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 8: DEDICATED CATEGORIES DIRECTORY PAGE -->
+            <div id="page-categories" class="store-page">
+                <section class="categories-page-section">
+                    <div class="page-intro-header">
+                        <h2 class="page-title">Shop by Department</h2>
+                        <p>Select a department below to explore available electronic hardware, smart home hubs, and publications.</p>
+                    </div>
+
+                    <div class="categories-showcase-grid">
+                        <!-- Category 1: Electronics -->
+                        <div class="category-showcase-card" data-category="electronics">
+                            <div class="cat-image-circle">🎧</div>
+                            <h3>Electronics</h3>
+                            <p>Wireless noise-cancelling headphones, high-fidelity sound, and portable power bank chargers.</p>
+                            <span class="cat-count-badge">4 Products</span>
+                            <button class="btn btn-secondary btn-sm">Browse Department</button>
+                        </div>
+
+                        <!-- Category 2: Smart Home -->
+                        <div class="category-showcase-card" data-category="smarthome">
+                            <div class="cat-image-circle">🏠</div>
+                            <h3>Smart Home</h3>
+                            <p>Smart audio speakers, Alexa controllers, and automated plugs to connect your household devices.</p>
+                            <span class="cat-count-badge">2 Products</span>
+                            <button class="btn btn-secondary btn-sm">Browse Department</button>
+                        </div>
+
+                        <!-- Category 3: Books -->
+                        <div class="category-showcase-card" data-category="books">
+                            <div class="cat-image-circle">📚</div>
+                            <h3>Books & e-Readers</h3>
+                            <p>Adjustable warm light Kindle paperwhites and world-famous hardcover self-improvement titles.</p>
+                            <span class="cat-count-badge">2 Products</span>
+                            <button class="btn btn-secondary btn-sm">Browse Department</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 9: DEDICATED PRODUCT DETAILS PAGE -->
+            <div id="page-product-details" class="store-page">
+                <section class="product-details-page-section">
+                    <div class="details-nav-breadcrumb">
+                        <a href="#" class="navigate-shop-action">Shop Catalog</a> &gt; <span id="details-breadcrumb-category">Category</span>
+                    </div>
+
+                    <div class="product-details-layout">
+                        <!-- Col 1: Product Image -->
+                        <div class="details-image-panel">
+                            <div class="details-img-container">
+                                <img id="details-product-img" src="" alt="Product Image">
+                            </div>
+                        </div>
+
+                        <!-- Col 2: Info & Bullets -->
+                        <div class="details-info-panel">
+                            <h2 id="details-product-name" class="details-product-name">Product Name</h2>
+                            <div class="details-brand-rating-row">
+                                <span class="details-brand-link">Brand: <a href="#" id="details-product-brand-link">BrandName</a></span>
+                                <div class="rating-stars" id="details-product-stars">
+                                    <!-- Stars populated dynamically -->
+                                </div>
+                            </div>
+                            
+                            <div class="summary-divider"></div>
+                            
+                            <div class="details-price-row">
+                                <span class="price-lbl">Price:</span>
+                                <span id="details-product-price" class="details-price-val">$0.00</span>
+                                <span class="details-free-shipping">&amp; <b>FREE Returns</b></span>
+                            </div>
+
+                            <div class="summary-divider"></div>
+
+                            <div class="details-bullets-container">
+                                <h4>About this item</h4>
+                                <ul id="details-product-bullets">
+                                    <!-- Bullets populated dynamically -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Col 3: Buy Box Card -->
+                        <div class="details-buy-box">
+                            <div class="buy-box-price" id="details-buy-box-price">$0.00</div>
+                            <div class="buy-box-delivery">
+                                <span class="details-free-shipping"><b>FREE delivery</b> Tomorrow. Order within 4 hrs.</span>
+                            </div>
+                            <div class="stock-status in-stock">In Stock.</div>
+                            
+                            <div class="buy-box-qty-row">
+                                <label for="details-qty-select">Qty:</label>
+                                <select id="details-qty-select" class="buy-box-qty-select">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            <div class="buy-box-actions">
+                                <button id="details-add-to-cart-btn" class="btn btn-primary btn-block">Add to Cart</button>
+                                <button id="details-buy-now-btn" class="btn btn-secondary btn-block">Buy Now</button>
+                            </div>
+
+                            <div class="buy-box-footer">
+                                <span>Ships from: Amazon.com</span>
+                                <span>Sold by: Amazon.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Newsletter Ingestion Form (Key Salesforce MC Next practice point) -->
+            <section class="newsletter-section">
+                <div class="newsletter-card">
+                    <div class="newsletter-info">
+                        <h2>Join the Amazon Growth Registry</h2>
+                        <p>Subscribe to receive technology reviews, book reviews, and hardware deals. We'll synchronize this subscriber record directly to your Marketing Cloud Growth/Advanced instance.</p>
+                    </div>
+                    <form id="newsletter-form" class="newsletter-form">
+                        <div class="form-group-row">
+                            <div class="form-input-wrapper">
+                                <input type="text" id="subscribe-name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-input-wrapper">
+                                <input type="email" id="subscribe-email" placeholder="Your Email Address" required>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Subscribe</button>
+                        </div>
+                        <p class="form-disclosure">Submitting this form dispatches a profile creation & identity link event via the Web SDK, or pushes a Lead via core APIs.</p>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="store-footer">
+            <p>&copy; 2026 Amazon Replica Sandbox. Created for Salesforce Marketing Cloud Next integration practice.</p>
+        </footer>
+    </div>
+
+    <!-- Left Side Panel: Marketing Cloud Next Integration & Debugger Console -->
+    <div id="integration-panel" class="drawer drawer-left drawer-wide">
+        <div class="drawer-header">
+            <div class="drawer-header-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <h3>MC Next Integration Panel</h3>
+            </div>
+            <button id="close-integration-btn" class="close-btn" aria-label="Close Panel">&times;</button>
+        </div>
+        
+        <div class="drawer-content integration-content">
+            
+            <!-- Integration Toggle / Mode Selector -->
+            <div class="panel-section mode-selector-card">
+                <div class="section-title-row">
+                    <span class="step-num">1</span>
+                    <h4>Connection Mode</h4>
+                </div>
+                <div class="mode-toggles">
+                    <label class="mode-option">
+                        <input type="radio" name="integration-mode" value="simulate" checked>
+                        <div class="mode-card">
+                            <span class="mode-title">Simulation Mode</span>
+                            <span class="mode-desc">Inspect code and payload structures client-side. No endpoints hit.</span>
+                        </div>
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="integration-mode" value="active">
+                        <div class="mode-card">
+                            <span class="mode-title">Active Integration</span>
+                            <span class="mode-desc">Route events through local Node.js proxy to your live Salesforce org.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Configuration Accordion -->
+            <div class="panel-section">
+                <div class="section-title-row">
+                    <span class="step-num">2</span>
+                    <h4>Integration Credentials</h4>
+                </div>
+                
+                <!-- Web SDK Section -->
+                <details class="config-accordion" open>
+                    <summary class="accordion-header">
+                        <span>Interactions SDK (Web SDK)</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="arrow"><polyline points="6 9 12 15 18 9"></polyline></summary>
+                    <div class="accordion-content">
+                        <p class="accordion-hint">Connect your site with Salesforce Data Cloud / Marketing Cloud Personalization events.</p>
+                        <div class="form-group">
+                            <label for="cfg-sdk-tenant">Salesforce Interactions Tenant URL</label>
+                            <input type="url" id="cfg-sdk-tenant" placeholder="https://YOUR_TENANT.evergage.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="cfg-sdk-namespace">Dataset / Namespace</label>
+                            <input type="text" id="cfg-sdk-namespace" placeholder="amazon_replica">
+                        </div>
+                        <div class="form-group">
+                            <label for="cfg-sdk-mid">Enterprise MID (Merchant ID)</label>
+                            <input type="text" id="cfg-sdk-mid" placeholder="500012345">
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Core API Section -->
+                <details class="config-accordion">
+                    <summary class="accordion-header">
+                        <span>Core Salesforce API & Web-to-Lead</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="arrow"><polyline points="6 9 12 15 18 9"></polyline></summary>
+                    <div class="accordion-content">
+                        <p class="accordion-hint">Map newsletter leads or trigger transactional flows on purchase events.</p>
+                        <div class="form-group">
+                            <label for="cfg-sf-orgid">Salesforce Org ID (Web-to-Lead)</label>
+                            <input type="text" id="cfg-sf-orgid" placeholder="00D80000000abc1">
+                        </div>
+                        <div class="form-group">
+                            <label for="cfg-sf-authurl">Salesforce Auth Login URL</label>
+                            <input type="url" id="cfg-sf-authurl" placeholder="https://login.salesforce.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="cfg-sf-resturl">Salesforce REST API Instance URL</label>
+                            <input type="url" id="cfg-sf-resturl" placeholder="https://yourdomain.my.salesforce.com">
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="cfg-sf-clientid">Client ID</label>
+                                <input type="text" id="cfg-sf-clientid" placeholder="3MVG9...">
+                            </div>
+                            <div class="form-group">
+                                <label for="cfg-sf-clientsecret">Client Secret</label>
+                                <input type="password" id="cfg-sf-clientsecret" placeholder="••••••••••••">
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Ingestion Endpoint Section -->
+                <details class="config-accordion">
+                    <summary class="accordion-header">
+                        <span>Data Cloud Streaming Ingestion</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="arrow"><polyline points="6 9 12 15 18 9"></polyline></summary>
+                    <div class="accordion-content">
+                        <p class="accordion-hint">Feed transaction data directly into Data Cloud data spaces via streaming.</p>
+                        <div class="form-group">
+                            <label for="cfg-dc-ingest-url">Data Cloud Ingestion API URL</label>
+                            <input type="url" id="cfg-dc-ingest-url" placeholder="https://YOUR_TENANT.api.user.c360a.salesforce.com">
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="cfg-dc-source">Connector Source</label>
+                                <input type="text" id="cfg-dc-source" placeholder="AmazonReplicaStore">
+                            </div>
+                            <div class="form-group">
+                                <label for="cfg-dc-event">Data Stream Event Object</label>
+                                <input type="text" id="cfg-dc-event" placeholder="ecom_purchase_event">
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Live Logger Workspace -->
+            <div class="panel-section console-workspace">
+                <div class="console-header">
+                    <div class="section-title-row">
+                        <span class="step-num">3</span>
+                        <h4>Live Event Console</h4>
+                    </div>
+                    <div class="console-actions">
+                        <button id="clear-console-btn" class="text-btn">Clear Logs</button>
+                    </div>
+                </div>
+                
+                <!-- Output Console Window -->
+                <div id="console-output" class="console-output">
+                    <div class="console-line system-line">
+                        <span class="line-time">[15:18:53]</span>
+                        <span class="line-tag font-bold">SYSTEM:</span>
+                        <span class="line-text">Amazon Ingestion Console initialized. Search for Amazon products to trace client-side Web SDK events.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Loaded without type="module" to enable file:// compatibility -->
+    <script src="js/interactions-sdk.js"></script>
+    <script src="js/salesforce-connector.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/sitemap.js"></script>
+</body>
+</html>
